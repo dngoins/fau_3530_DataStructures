@@ -485,19 +485,6 @@ void state_class::print(const int min=0, const int max=0)
 }
 
 
-/****************************************************************************************************************************/
-//Name: getSize
-//Precondition: valid order_record array with at least 1 entry.
-//Postcondition: returns the number of elements in the array based on the byte size of the array
-//Decription: gets the length of the INV array
-//            is exited.
-/***************************************************************************************************************************/
-int state_class::getSize(const population_record record[])
-{
-	return  (sizeof(record) / sizeof(record[0])) | 1;
-}
-
-
 
 /******************************************************************************************************************************/
 //Name: CopyArray

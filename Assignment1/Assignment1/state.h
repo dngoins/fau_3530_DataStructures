@@ -41,7 +41,6 @@ public:
 	
 
 private:
-	int	getSize(const population_record record[]);
 	void print(const int min, const int max); //prints all the elements in INV to the screen
 	void copyArray(const population_record src[], int size, PopulationRecordPtr& dest);
 	string * splitStatePopulation(const string & line, int * size);
