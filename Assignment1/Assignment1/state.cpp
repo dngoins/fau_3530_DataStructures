@@ -3,6 +3,7 @@
 #include <iomanip>  //need to use formatting manipulators
 #include <string>
 
+using namespace std;
 /***********************
 
 FUNCTION HEADER
@@ -35,7 +36,7 @@ state_class::state_class()
 
 	if (checkInputFile)
 	{
-		cout << "Input file did not open correctly" << endl;
+		std::cout << "Input file did not open correctly" << endl;
 		return;
 	}
 
@@ -82,7 +83,7 @@ state_class::state_class()
 /**********************************************************************************/
 state_class::state_class(const state_class& toCopy)
 {		
-	cout << "copy constructor has been called\n";
+	std::cout << "copy constructor has been called\n";
 	count = toCopy.count;
 	capacity = toCopy.capacity;
 
@@ -153,7 +154,7 @@ void state_class::operator+(const population_record& r)
 
 	if (r.state_name.empty())
 	{
-		cout << "Please enter in a State:";
+		std::cout << "Please enter in a State:";
 		cin >> newRecord.state_name;
 	}
 	else
@@ -225,9 +226,9 @@ void state_class::Print_ALL_To_File(const string& filename)
 {
 	
 	//place your code here
-	cout.setf(ios::fixed);
-	cout.setf(ios::showpoint);
-	cout.precision(2);
+	std::cout.setf(ios::fixed);
+	std::cout.setf(ios::showpoint);
+	std::cout.precision(2);
 
 	ofstream fout;
 	bool checkOutputFile = false;	//flag to test for valid input file
@@ -240,7 +241,7 @@ void state_class::Print_ALL_To_File(const string& filename)
 
 	if (checkOutputFile)
 	{
-		cout << "Output file did not open correctly" << endl;
+		std::cout << "Output file did not open correctly" << endl;
 		//return;
 	}
 
@@ -294,9 +295,9 @@ Description: Prints a range of state names and populations with Population Sizes
 void state_class::Print_Range(const int min, const int max)
 {
 	auto _count = 0;
-	cout.setf(ios::fixed);
-	cout.setf(ios::showpoint);
-	cout.precision(2);
+	std::cout.setf(ios::fixed);
+	std::cout.setf(ios::showpoint);
+	std::cout.precision(2);
 
 	for (int i = 0; i < count; i++)
 	{
@@ -304,7 +305,7 @@ void state_class::Print_Range(const int min, const int max)
 		if ((p_record.population > (double)min) 
 			&& (p_record.population <= (double)max))
 		{
-			cout << setw(25)
+			std::cout << setw(25)
 				<< p_record.state_name << "\t"
 				<< setw(5)
 				<< (int)p_record.population << "\t"
@@ -313,7 +314,7 @@ void state_class::Print_Range(const int min, const int max)
 		}
 	}
 
-	cout << " *************************************************** " << endl
+	std::cout << " *************************************************** " << endl
 		<< "\tTotal Records: " << _count << endl
 		<< " *************************************************** " << endl;
 }
@@ -344,17 +345,96 @@ int state_class::State_Count(const int min, const int max)
 }
 
 /******************************************************************************************************************************************************
-Name:
-Pre-Condition
-Post-Condition
-Description:
+Name: Sort
+Pre-Condition: pop_DB is initialized and valid
+Post-Condition: pop_DB is sorted in alphabetical order or by population size
+Description: 
 ******************************************************************************************************************************************************/
-void state_class::Sort()
+void state_class::Sort(bool byPopulation = false)
 {
 	//place your code here
-
+	if (!byPopulation)
+	{
+		sortByState();
+	}
+	else
+	{
+		sortByPopulation();
+	}
 }
 
+
+/******************************************************************************************************************************************************
+Name: SortByState
+Pre-Condition: pop_DB is initialized and valid
+Post-Condition: pop_DB is sorted in alphabetical order by state name ascending
+Description: Bubble sorts the pop_DB array in alphabetical order by state name ascending
+******************************************************************************************************************************************************/
+void state_class::sortByState()
+{
+	bool swap = false;
+	population_record temp;
+
+	do
+	{
+		swap = false;
+		for (int i = 0; i < count; i++)
+		{
+			for (int j = i+1; j < count; j++)
+			{
+				if (pop_DB[i].state_name > pop_DB[j].state_name)
+				{
+					//swap
+					swap = true;
+					temp = pop_DB[i];
+					pop_DB[i] = pop_DB[j];
+					pop_DB[j] = temp;
+				
+				}
+
+				if (swap) break;
+			}
+
+			if (swap) break;
+		}
+	} while (swap);
+}
+
+/*****************************************************************************
+Name: SortByPopulation
+Pre-Condition: pop_DB is initialized and valid
+Post-Condition: pop_DB is sorted by population size ascending
+Description: Bubble Sorts the pop_DB array by population size ascending
+******************************************************************************************************************************************************/
+void state_class::sortByPopulation()
+{
+	bool swap = false;
+	population_record temp;
+
+	do
+	{
+		swap = false;
+		for (int i = 0; i < count; i++)
+		{
+			for (int j = i + 1; j < count; j++)
+			{
+				if (pop_DB[i].population  > pop_DB[j].population)
+				{
+					//swap
+					swap = true;
+					temp = pop_DB[i];
+					pop_DB[i] = pop_DB[j];
+					pop_DB[j] = temp;
+
+				}
+
+				if (swap) break;
+			}
+
+			if (swap) break;
+		}
+	} while (swap);
+}
 
 /*******************************************************************************************/
 //Name: print
@@ -364,9 +444,9 @@ void state_class::Sort()
 /***************************************************************************************************************************/
 void state_class::print(const int min=0, const int max=0)
 {
-	cout.setf(ios::fixed);
-	cout.setf(ios::showpoint);
-	cout.precision(2);
+	std::cout.setf(ios::fixed);
+	std::cout.setf(ios::showpoint);
+	std::cout.precision(2);
 		
 	/********************************************/
 	//check for min and max values
@@ -379,7 +459,7 @@ void state_class::print(const int min=0, const int max=0)
 	}
 		int i = 0;
 
-		cout << "\tStateName:\t\tPopulation:\n";
+		std::cout << "\tStateName:\t\tPopulation:\n";
 		// Loop through all items in the array
 		for (i = _min; i < _max; i++)
 		{
@@ -390,7 +470,7 @@ void state_class::print(const int min=0, const int max=0)
 			*/
 			auto p_record = pop_DB[i];
 
-			cout << setw(25)
+			std::cout << setw(25)
 				<< p_record.state_name << "\t"
 				<< setw(5)
 				<< (int)p_record.population << "\t"
@@ -398,7 +478,7 @@ void state_class::print(const int min=0, const int max=0)
 			_count++;
 		}
 
-		cout << " *************************************************** " << endl
+		std::cout << " *************************************************** " << endl
 			<< "\tTotal Records: " << _count << endl
 			<< " *************************************************** " << endl;
 	
@@ -452,7 +532,7 @@ string* state_class::splitStatePopulation(const string& line, int* size)
 	auto strSize = line.length() ;
 
 	char* str =  (char*)calloc(strSize, sizeof(char));
-	for (int i = 0; i < strSize; i++)
+	for (size_t i = 0; i < strSize; i++)
 	{
 		memcpy(&str[i], &cstr[i], sizeof(char));
 	}
@@ -488,7 +568,7 @@ string* state_class::splitStatePopulation(const string& line, int* size)
 	// now we know how many so let's do it again 
 	// reset the str value:	
 	str = (char*)calloc(strSize, sizeof(char));
-	for (int i = 0; i < strSize; i++)
+	for (size_t i = 0; i < strSize; i++)
 	{
 		memcpy(&str[i], &cstr[i], sizeof(char));
 	}
@@ -537,7 +617,7 @@ string* state_class::splitStatePopulation(const string& line, int* size)
 		auto phrase = tokensToCatenate[i];
 		auto prevSize = i == 0 ? 0: phraseLengths[i - 1];
 		auto size = phraseLengths[i];
-		for (int j = 0; j < size; j++)
+		for (size_t j = 0; j < size; j++)
 		{
 			stateName[ndxcount++] = phrase[j];
 		}

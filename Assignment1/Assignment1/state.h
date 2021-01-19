@@ -37,7 +37,7 @@ public:
 	void Print_ALL();//prints all the fields of all the population records stored in pop_DB to the screen.
 	void Print_Range(const int min, const int max); //prints all the fields of all the population records stored in pop_DB with a population between min and max to the screen;
 	int State_Count(const int min, const int max);  //returns the total number of states with a population between min and max, inclusive.
-	void Sort(); //sorts the array pop_DB in alphabetical order based on state_name field using insertion sort algorithm
+	void Sort(bool byPopulation); //sorts the array pop_DB in alphabetical order based on state_name field using insertion sort algorithm
 	
 
 private:
@@ -45,6 +45,8 @@ private:
 	void print(const int min, const int max); //prints all the elements in INV to the screen
 	void copyArray(const population_record src[], int size, PopulationRecordPtr& dest);
 	string * splitStatePopulation(const string & line, int * size);
+	void sortByState();
+	void sortByPopulation();
 
 private:
 	int count = 0;  //total number of population records stored in pop_DB

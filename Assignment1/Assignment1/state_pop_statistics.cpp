@@ -93,12 +93,21 @@ int main()
 	std::cout << "***********************************************************************************\n";
 	
 	std::cout << "***********************************************************************************\n";
-	std::cout << "TEST 7:  Sort and Print_ALL\n\n";
-	New.Sort();
+	std::cout << "TEST 7:  Sort by alphabet and Print_ALL\n\n";
+	New.Sort(false);
 	New.Print_ALL();
 	std::cout << "END OF TEST 7:\n";
 	std::cout << "***********************************************************************************\n";
 	
+
+	std::cout << "***********************************************************************************\n";
+	std::cout << "TEST 7:  Sort by Population and Print_ALL\n\n";
+	New.Sort(true);
+	New.Print_ALL();
+	std::cout << "END OF TEST 7:\n";
+	std::cout << "***********************************************************************************\n";
+
+
 	std::cout << "***********************************************************************************\n";
 	std::cout << "TEST 8:  Print_ALL_To_File\n\n";
 	New.Print_ALL_To_File("state_data_update.txt");
