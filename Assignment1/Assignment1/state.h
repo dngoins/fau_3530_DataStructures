@@ -11,6 +11,10 @@
 
 using namespace std;
 
+/*
+	Name: Population Record
+	Description: used to deserialize State Name and Population single record
+*/
 class population_record
 {
 public:
@@ -20,7 +24,10 @@ public:
 
 typedef population_record* PopulationRecordPtr;
 
-
+/* 
+	Name: state_class
+	Description: Main class which loads, stores, counts state names and populations 
+*/
 class state_class
 {
 public:
