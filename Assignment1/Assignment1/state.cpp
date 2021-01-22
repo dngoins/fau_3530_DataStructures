@@ -663,9 +663,10 @@ string* state_class::splitStatePopulationEasy(const string& line, int* size)
 			// since it is an alpha it's not a number so just add it to the statename
 			stateName.append(1, c);
 		}
-		else
+		else if(isdigit(c))
 		{
-			// it's not a letter so it must be a number (we assmume...)
+			// it's not a letter so it must be a number 
+			// let's check
 			population.append(1, c);
 		}
 	}
