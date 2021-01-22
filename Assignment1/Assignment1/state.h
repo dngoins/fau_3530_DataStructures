@@ -51,6 +51,7 @@ private:
 	void print(const int min, const int max); //prints all the elements in INV to the screen
 	void copyArray(const population_record src[], int size, PopulationRecordPtr& dest);
 	string * splitStatePopulation(const string & line, int * size);
+	string* splitStatePopulationEasy(const string& line, int* size);
 	void sortByState();
 	void sortByPopulation();
 
@@ -58,6 +59,9 @@ private:
 	int count = 0;  //total number of population records stored in pop_DB
 	int capacity = 5;  //total memory allocated to the dynamic array pop_DB
 	PopulationRecordPtr pop_DB;      //dynamic array
+	std::string ltrim(const std::string& s);
+	std::string rtrim(const std::string& s);
+	std::string trim(const std::string& s);
 };
 
 #endif

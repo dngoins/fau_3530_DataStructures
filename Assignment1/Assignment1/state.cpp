@@ -3,6 +3,11 @@
 #include <iomanip>  //need to use formatting manipulators
 #include <string>
 
+// Used for string triming functions
+#include <iostream>
+#include <algorithm>
+
+
 using namespace std;
 /***********************
 
@@ -53,10 +58,17 @@ state_class::state_class()
 			2) Population
 
 	*/
+
 		string line;
 		getline(in, line);
 		int arrSize = 0;
-		string * data = splitStatePopulation(line, &arrSize);
+		
+		string * data = splitStatePopulationEasy(line, &arrSize);
+
+		// same thing but done by using strtok and splitting string and assembling 
+		// string using C syntax instead of C++ built for fun...
+		// string * data = splitStatePopulation(line, &arrSize);
+
 		//in >> p_record.state_name;
 		//in >> p_record.population;
 		p_record.state_name = data[0];
@@ -81,15 +93,15 @@ state_class::state_class()
 //Decription: Reads the data file of population info, 
 //pop_DB. If the count become equal to the size the function double_size is called and the memory allocated to pop_DB is doubled.
 /**********************************************************************************/
-state_class::state_class(const state_class& toCopy)
+state_class::state_class(const state_class& originalToCopy)
 {		
 	std::cout << "copy constructor has been called\n";
-	count = toCopy.count;
-	capacity = toCopy.capacity;
+	count = originalToCopy.count;
+	capacity = originalToCopy.capacity;
 
 	// must first initialize 
 	pop_DB = new population_record[capacity];
-	copyArray(toCopy.pop_DB, capacity, pop_DB);
+	copyArray(originalToCopy.pop_DB, capacity, pop_DB);
 }
 
 /******************************************************************************************************************************************************
@@ -616,4 +628,94 @@ string* state_class::splitStatePopulation(const string& line, int* size)
 	result[0] = s_stateName;
 
 	return result;
+}
+
+
+/****************************************************************************************************************************/
+//Name: splitStatePopulationEasy
+//Precondition: a line containing spaces representing State Name and population values
+//Postcondition: returns an array of the State Name and the Population, size of the array
+//Decription: takes a line containing state names and spaces and splits it into an array of the state name and population.
+//After reviewing other code samples - there were way easier ways to do this 
+/***************************************************************************************************************************/
+
+string* state_class::splitStatePopulationEasy(const string& line, int* size)
+{
+
+	_ASSERT(size != NULL);
+	string* result = new string[2];
+	*size = 2; // we will always return two elements: stateName and population
+
+	auto strSize = line.length();
+
+	string stateName = "";
+	string population = "";
+
+	// let's use an easy way to do this
+	// first let's read each char in line 
+	for (int i = 0; i < strSize; i++)
+	{
+		const char c = line[i];
+
+		// now let's check to see if the character is alpha or not
+		if (isalpha(c) || isspace(c))
+		{
+			// since it is an alpha it's not a number so just add it to the statename
+			stateName.append(1, c);
+		}
+		else
+		{
+			// it's not a letter so it must be a number (we assmume...)
+			population.append(1, c);
+		}
+	}
+
+	
+	result[0] = trim(stateName);
+	result[1] = trim(population);
+
+	return result;
+}
+
+/*
+String Trimming Functions
+https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
+*/
+const std::string WHITESPACE = " \n\r\t\f\v";
+
+
+/*************************************************************************/
+//Name: ltrim
+//Precondition: a valid initialized string reference
+//Postcondition: returns a copy of the string with the leading spaces removed
+//Decription: Takes a copy of the string and removes the leading spaces
+/*******************************************************************/
+std::string state_class::ltrim(const std::string& s)
+{
+	size_t start = s.find_first_not_of(WHITESPACE);
+	return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+
+/*************************************************************************/
+//Name: rtrim
+//Precondition: a valid initialized string reference
+//Postcondition: returns a copy of the string with the trailing spaces removed
+//Decription: Takes a copy of the string and removes the trailing spaces
+/*******************************************************************/
+std::string state_class::rtrim(const std::string& s)
+{
+	size_t end = s.find_last_not_of(WHITESPACE);
+	return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+
+/*************************************************************************/
+//Name: trim
+//Precondition: a valid initialized string reference
+//Postcondition: returns a copy of the string with the leading and trailing spaces removed
+//Decription: Takes a copy of the string and removes the leading and trailing spaces
+/*******************************************************************/
+std::string state_class::trim(const std::string& s)
+{
+	return rtrim(ltrim(s));
 }
