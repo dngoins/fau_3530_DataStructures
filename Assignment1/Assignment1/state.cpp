@@ -258,7 +258,17 @@ void state_class::Print_ALL_To_File(const string& filename)
 	}
 
 	auto _count = 0;
-	fout << "***********************************************************************\n\t\tStateName:\tPopulation:\n***********************************************************************\n";
+	fout << "***********************************************************************\n"
+		<< "\t\tState Data Updated Population\n"
+		<< "***********************************************************************\n\n";
+
+	fout << setw(25)
+		<< "\tStateName:"
+		<< setw(12)
+		<< "\tPopulation:\n"
+		<< "*************************\t************\n";
+
+
 	// Loop through all items in the array
 	for (int i = 0; i < count; i++)
 	{
@@ -271,13 +281,13 @@ void state_class::Print_ALL_To_File(const string& filename)
 
 		fout << setw(25)
 			<< p_record.state_name << "\t"
-			<< setw(5)
+			<< setw(12)
 			<< (int)p_record.population << "\t"
 			<< endl;
 		_count++;
 	}
 
-	fout << "***********************************************************************" << endl
+	fout << "\n***********************************************************************" << endl
 		<< "\tTotal Records: " << _count << endl
 		<< "***********************************************************************" << endl;
 
@@ -311,6 +321,13 @@ void state_class::Print_Range(const int min, const int max)
 	std::cout.setf(ios::showpoint);
 	std::cout.precision(2);
 
+	std::cout << setw(25)
+		<< "\tStateName:"
+		<< setw(12)
+		<< "\tPopulation:\n"
+		<< "-------------------------\t-------------\n";
+
+
 	for (int i = 0; i < count; i++)
 	{
 		auto p_record = pop_DB[i];
@@ -319,7 +336,7 @@ void state_class::Print_Range(const int min, const int max)
 		{
 			std::cout << setw(25)
 				<< p_record.state_name << "\t"
-				<< setw(5)
+				<< setw(12)
 				<< (int)p_record.population << "\t"
 				<< endl;
 			_count++;
@@ -373,6 +390,17 @@ void state_class::Sort(bool byPopulation = false)
 	{
 		sortByPopulation();
 	}
+}
+
+/******************************************************************************************************************************************************
+Name: Sort
+Pre-Condition: pop_DB is initialized and valid
+Post-Condition: pop_DB is sorted in alphabetical order 
+Description:
+******************************************************************************************************************************************************/
+void state_class::Sort()
+{
+	Sort(false);
 }
 
 
@@ -471,7 +499,12 @@ void state_class::print(const int min=0, const int max=0)
 	}
 		int i = 0;
 
-		std::cout << "\tStateName:\t\tPopulation:\n";
+		std::cout << setw(25)
+			<< "\tStateName:"
+			<< setw(12)
+			<< "\tPopulation:\n"
+			<< "-------------------------\t-------------\n";
+
 		// Loop through all items in the array
 		for (i = _min; i < _max; i++)
 		{
@@ -484,7 +517,7 @@ void state_class::print(const int min=0, const int max=0)
 
 			std::cout << setw(25)
 				<< p_record.state_name << "\t"
-				<< setw(5)
+				<< setw(12)
 				<< (int)p_record.population << "\t"
 				<< endl;
 			_count++;
